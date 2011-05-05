@@ -1,10 +1,8 @@
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
 
-
 // create tab group
 var tabGroup = Titanium.UI.createTabGroup({id:'tabGroup1'});
-
 
 var topBarBackgroundImage = "images/topBar@2x.png";
 
@@ -28,7 +26,8 @@ var tab_searchRooms = Titanium.UI.createTab({
 //
 var addRoom = Titanium.UI.createWindow({
     url:'main_views/addRoom.js',
-    titleid:'addRoom_title'
+    titleid:'addRoom_title',
+	barImage: topBarBackgroundImage
 });
 var tab_addRoom = Titanium.UI.createTab({
     icon:'images/tabs/tabbarIcon_addRoom.png',
@@ -41,7 +40,8 @@ var tab_addRoom = Titanium.UI.createTab({
 //
 var profile = Titanium.UI.createWindow({
     url:'main_views/profile.js',
-    titleid:'profile_title'
+    titleid:'profile_title',
+	barImage: topBarBackgroundImage
 });
 var tab_profile = Titanium.UI.createTab({
     icon:'images/tabs/tabbarIcon_profile.png',
