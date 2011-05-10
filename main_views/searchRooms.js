@@ -1,3 +1,24 @@
+Ti.Geolocation.preferredProvider = "gps";
+
+Ti.include("../lib/version.js");
+if (isIPhone3_2_Plus()) {
+	Ti.Geolocation.purpose = L('searchRooms_gps-purpose');
+}
+
+Titanium.Geolocation.accuracy = Titanium.Geolocation.ACCURACY_BEST;
+Ti.Geolocation.getCurrentPosition(function(e) {
+	Ti.API.info("received geo response");
+    if (e.error) {
+        alert(e.error);
+        return;
+    }
+ 
+    var longitude = e.coords.longitude;
+    var latitude = e.coords.latitude;
+});
+
+
+
 var serviceUrl = 'https://mongolab.com/api/1/databases/wickelmich/collections/locations?apiKey=4dbe5e5a50f0458d3ca398cc&limit=20';
 var xhr = Ti.Network.createHTTPClient();
  
@@ -27,17 +48,27 @@ roomsTable.addEventListener('click', function(e) {
 Ti.UI.currentWindow.add(roomsTable);
 
 function createRow(room) {
+	
 	var row = Ti.UI.createTableViewRow({
-		hasDetail: true
+		hasChild: true,
+		height: 55
 	});
 	
-	rowTitle = Ti.UI.createLabel({
-		text: room.title
+	var rowTitle = Ti.UI.createLabel({
+		text: room.name,
+		font: {fontWeight:'bold',fontSize:15},
+		left: 10,
+		top: -16
 	});
 	row.add(rowTitle);
 	
-	rowDistance = Ti.UI.createLabel({
-		text: room.loc
+	var rowDistance = Ti.UI.createLabel({
+		//text: room.loc,
+		text: 'ca. 75 Meter',
+		font: {fontSize: 12},
+		color: '#7f7f7f',
+		left: 10,
+		bottom: -18
 	});
 	row.add(rowDistance);
 	
@@ -57,14 +88,11 @@ xhr.onload = function() {
 		
 		var rooms = [];
 		
-		for (var i=0; i<=rooms_objects.length; i++) {
-			Ti.API.info(this.rooms_objects[i]);
-			row = createRow({
-				title: rooms_objects[i].title,
-				loc: rooms_objects[i].loc
-			});
+		for (var i=0; i<rooms_objects.length; i++) {
+			row = createRow(rooms_objects[i]);
 			rooms.push(row);
 		}
+		roomsTable.setData(rooms);
 	}
 };
 
